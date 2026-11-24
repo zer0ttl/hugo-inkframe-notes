@@ -1,0 +1,49 @@
+baseURL = "https://example.org/"
+locale = "en"
+title = "Inkframe Notes"
+theme = "hugo-inkframe-notes"
+
+[pagination]
+pagerSize = 6
+
+[taxonomies]
+tag = "tags"
+category = "categories"
+
+[markup.highlight]
+noClasses = false
+
+[params]
+description = "An example blog powered by Inkframe Notes."
+homeLayout = "grid"
+homeTitle = "A notebook for things learned"
+homeIntro = "Short notes on making, writing, and working with tools."
+mainSections = ["posts"]
+themeMode = "system"
+themePalette = "sage"
+outlineLayout = "sidebar"
+
+[[menus.main]]
+name = "Blog"
+pageRef = "/posts"
+weight = 10
+
+[[menus.main]]
+name = "About"
+pageRef = "/about"
+weight = 20
+
+[[menus.main]]
+name = "Archives"
+pageRef = "/archives"
+weight = 30
+
+[[menus.main]]
+name = "Tags"
+pageRef = "/tags"
+weight = 40
+
+[[menus.main]]
+name = "Search"
+pageRef = "/search"
+weight = 50

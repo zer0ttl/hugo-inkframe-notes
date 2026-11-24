@@ -1,0 +1,32 @@
+{{ define "main" }}
+  {{ if eq site.Params.homeLayout "intro" }}
+    <section class="hero landing-intro" aria-label="{{ site.Title }}">
+      <p>{{ site.Params.homeIntro | default site.Params.description | default site.Title }}</p>
+      {{ with site.Params.homeLinks }}
+        <div class="landing-actions">
+          {{ range $index, $link := . }}
+            <a class="filter-pill{{ if eq $index 0 }} is-active{{ end }}" href="{{ $link.url | relURL }}">{{ $link.label }}</a>
+          {{ end }}
+        </div>
+      {{ end }}
+    </section>
+  {{ else }}
+    <section class="hero">
+      <h1>{{ site.Params.homeTitle | default site.Title }}</h1>
+      {{ with site.Params.homeIntro }}<p>{{ . }}</p>{{ end }}
+    </section>
+
+    {{ partial "category-filters.html" . }}
+    {{ $sections := site.Params.mainSections | default (slice "posts") }}
+    {{ $posts := where site.RegularPages "Section" "in" $sections }}
+    {{ $paginator := .Paginate $posts }}
+    <section class="post-grid" aria-label="Latest posts">
+      {{ range $paginator.Pages }}
+        {{ partial "post-card.html" . }}
+      {{ else }}
+        <div class="empty-state">No posts found.</div>
+      {{ end }}
+    </section>
+    {{ partial "pagination.html" $paginator }}
+  {{ end }}
+{{ end }}

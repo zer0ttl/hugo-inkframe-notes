@@ -1,0 +1,17 @@
+{{ partial "list-header.html" (dict "title" .Title "intro" .Content) }}
+
+{{ $sections := site.Params.mainSections | default (slice "posts") }}
+{{ $pages := where site.RegularPages "Section" "in" $sections }}
+{{ range $pages.GroupByDate "2006" }}
+  <section class="archive-year">
+    <h2>{{ .Key }}</h2>
+    <div class="archive-list">
+      {{ range .Pages }}
+        <a class="archive-row" href="{{ .RelPermalink }}">
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ upper (.Date.Format "Jan 2") }}</time>
+          <span>{{ .Title }}</span>
+        </a>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

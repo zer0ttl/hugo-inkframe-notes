@@ -1,0 +1,17 @@
+{{ define "main" }}
+  {{ partial "list-header.html" (dict "title" .Title "intro" .Content) }}
+
+  {{ $sections := site.Params.mainSections | default (slice "posts") }}
+  {{ if in $sections .Section }}{{ partial "category-filters.html" . }}{{ end }}
+
+  {{ $paginator := .Paginate .Pages }}
+  <section class="post-grid" aria-label="Posts">
+    {{ range $paginator.Pages }}
+      {{ partial "post-card.html" . }}
+    {{ else }}
+      <div class="empty-state">No posts found.</div>
+    {{ end }}
+  </section>
+
+  {{ partial "pagination.html" $paginator }}
+{{ end }}

@@ -1,0 +1,12 @@
+{{ define "main" }}
+  {{ partial "list-header.html" (dict "title" .Title) }}
+
+  <section class="term-grid" aria-label="Terms">
+    {{ range .Data.Terms.ByCount }}
+      <a class="term-card" href="{{ .Page.RelPermalink }}">
+        <span>{{ .Page.Title }}</span>
+        <strong>{{ .Count }}</strong>
+      </a>
+    {{ end }}
+  </section>
+{{ end }}

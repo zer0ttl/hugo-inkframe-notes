@@ -1,0 +1,61 @@
+{{ define "main" }}
+  {{ $sections := site.Params.mainSections | default (slice "posts") }}
+  {{ $isPost := in $sections .Section }}
+  <article class="single-post{{ if $isPost }} post-page{{ end }}">
+    {{ if .Params.pageLabel }}
+      {{ partial "list-header.html" (dict "title" .Title) }}
+    {{ else }}
+      <header class="single-header">
+        <h1>{{ .Title }}</h1>
+        {{ if and $isPost (not .Params.hidemeta) }}{{ partial "post-meta.html" . }}{{ end }}
+      </header>
+    {{ end }}
+
+    {{ $toc := .TableOfContents }}
+    {{ $showOutline := and (.Param "showToc") (in $toc "href=") }}
+    <div class="article-layout{{ if $showOutline }} has-outline{{ end }}">
+      {{ if $showOutline }}
+        <details class="article-outline" open>
+          <summary><span class="outline-inline-label">Table of contents</span><span class="outline-sidebar-label">On this page</span></summary>
+          {{ $toc }}
+        </details>
+      {{ end }}
+      <div class="prose">
+        {{ .Content }}
+      </div>
+    </div>
+
+    {{ with .GetTerms "tags" }}
+      <nav class="post-tags" aria-labelledby="post-tags-label">
+        <span id="post-tags-label">Tags</span>
+        <ul role="list">
+          {{ range . }}
+            <li><a class="filter-pill" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
+          {{ end }}
+        </ul>
+      </nav>
+    {{ end }}
+
+    {{ if $isPost }}
+      <nav class="post-nav" aria-label="Post navigation">
+        {{ with .PrevInSection }}
+          <a class="post-nav-item" href="{{ .RelPermalink }}">
+            <span>← Previous Post</span>
+            <strong>{{ .Title }}</strong>
+          </a>
+        {{ else }}
+          <span class="post-nav-item is-empty"></span>
+        {{ end }}
+
+        {{ with .NextInSection }}
+          <a class="post-nav-item align-right" href="{{ .RelPermalink }}">
+            <span>Next Post →</span>
+            <strong>{{ .Title }}</strong>
+          </a>
+        {{ else }}
+          <span class="post-nav-item is-empty"></span>
+        {{ end }}
+      </nav>
+    {{ end }}
+  </article>
+{{ end }}

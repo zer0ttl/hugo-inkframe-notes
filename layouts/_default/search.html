@@ -1,0 +1,22 @@
+{{ define "main" }}
+  {{ partial "list-header.html" (dict "title" .Title "intro" .Content) }}
+
+  <div class="site-search" role="search">
+    <label for="search-query">Search the site</label>
+    <input id="search-query" type="search" placeholder="{{ .Params.placeholder | default "Search" }}" autocomplete="off">
+    <p id="search-status" role="status"></p>
+    <ul id="search-results" aria-label="Search results"></ul>
+    <noscript>Enable JavaScript to search the site.</noscript>
+  </div>
+
+  {{ $index := slice }}
+  {{ range site.RegularPages }}
+    {{ if and (not .Params.searchHidden) (not (in (slice "search" "archive" "archives") .Layout)) }}
+      {{ $index = $index | append (dict "title" .Title "url" .RelPermalink "summary" (.Summary | plainify) "body" .Plain) }}
+    {{ end }}
+  {{ end }}
+  <script id="search-index" type="application/json">{{ $index | jsonify | safeJS }}</script>
+  {{ with resources.Get "js/search.js" | minify | fingerprint }}
+    <script defer src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}"></script>
+  {{ end }}
+{{ end }}

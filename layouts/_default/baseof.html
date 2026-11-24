@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="{{ site.Language.Lang | default "en" }}"{{ if and .IsPage (.Param "showToc") (eq (.Param "outlineLayout") "sidebar") (in .TableOfContents "href=") }} data-outline="sidebar"{{ end }}>
+  {{ partial "head.html" . }}
+  <body id="top">
+    <div class="site-shell{{ if and .IsHome (eq site.Params.homeLayout "intro") }} landing-shell{{ end }}">
+      {{ partial "header.html" . }}
+      <main class="site-main">
+        {{ block "main" . }}{{ end }}
+      </main>
+      {{ partial "footer.html" . }}
+    </div>
+    <button class="back-to-top" type="button" data-back-to-top hidden>
+      <span aria-hidden="true">↑</span> Back to top
+    </button>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+{{ $cats := site.Taxonomies.categories }}
+{{ if $cats }}
+  <div class="filter-row" aria-label="Categories">
+    <a class="filter-pill is-active" href="{{ site.Home.RelPermalink }}">All</a>
+    {{ range $name, $taxonomy := $cats }}
+      {{ $termPage := site.GetPage (printf "/categories/%s" ($name | urlize)) }}
+      {{ if $termPage }}
+        <a class="filter-pill" href="{{ $termPage.RelPermalink }}">{{ $name }}</a>
+      {{ else }}
+        <a class="filter-pill" href="{{ printf "/categories/%s/" ($name | urlize) | relURL }}">{{ $name }}</a>
+      {{ end }}
+    {{ end }}
+  </div>
+{{ end }}

@@ -1,0 +1,11 @@
+name = "Inkframe Notes"
+license = "MIT"
+licenselink = "https://github.com/zer0ttl/hugo-inkframe-notes/blob/main/LICENSE"
+description = "A bold Hugo theme for personal sites and technical writing."
+homepage = "https://github.com/zer0ttl/hugo-inkframe-notes"
+tags = ["blog", "minimal", "neobrutalism", "responsive"]
+features = ["search", "archives", "tags", "themes", "article outlines", "syntax highlighting"]
+min_version = "0.170.1"
+
+[author]
+name = "Inkframe Notes contributors"

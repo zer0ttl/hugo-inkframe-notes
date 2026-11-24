@@ -1,0 +1,8 @@
+<article class="post-card">
+  <a class="post-card-link" href="{{ .RelPermalink }}" aria-label="Read {{ .Title }}">
+    {{ partial "post-meta.html" . }}
+    <h2>{{ .Title }}</h2>
+    <p>{{ with .Description }}{{ . }}{{ else }}{{ .Summary | plainify | truncate 112 }}{{ end }}</p>
+    <span class="read-more">Read More <span aria-hidden="true">→</span></span>
+  </a>
+</article>

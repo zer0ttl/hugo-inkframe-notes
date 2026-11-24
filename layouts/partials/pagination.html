@@ -1,0 +1,23 @@
+{{ if gt .TotalPages 1 }}
+<nav class="pagination" aria-label="Pagination">
+  {{ if .HasPrev }}
+    <a class="page-button" href="{{ .Prev.URL }}" aria-label="Previous page">«</a>
+  {{ else }}
+    <span class="page-button is-disabled">«</span>
+  {{ end }}
+
+  {{ range .Pagers }}
+    {{ if eq .PageNumber $.PageNumber }}
+      <span class="page-button is-current">{{ .PageNumber }}</span>
+    {{ else }}
+      <a class="page-button" href="{{ .URL }}">{{ .PageNumber }}</a>
+    {{ end }}
+  {{ end }}
+
+  {{ if .HasNext }}
+    <a class="page-button" href="{{ .Next.URL }}" aria-label="Next page">»</a>
+  {{ else }}
+    <span class="page-button is-disabled">»</span>
+  {{ end }}
+</nav>
+{{ end }}

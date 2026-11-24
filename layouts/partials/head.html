@@ -1,0 +1,41 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{ $defaultMode := site.Params.themeMode | default "light" }}
+  {{ $defaultPalette := site.Params.themePalette | default "ivory" }}
+  <script>
+    (function () {
+      var mode = {{ $defaultMode }};
+      var palette = {{ $defaultPalette }};
+      try {
+        mode = localStorage.getItem("inkframe-notes-mode") || mode;
+        palette = localStorage.getItem("inkframe-notes-palette") || palette;
+        if (mode === "system") {
+          mode = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+      } catch (error) {}
+      document.documentElement.dataset.theme = mode === "dark" ? "dark" : "light";
+      document.documentElement.dataset.palette = palette || "ivory";
+    })();
+  </script>
+  <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>
+  {{ with site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap">
+  {{ $css := resources.Get "css/main.css" }}
+  {{ if $css }}
+    {{ $css = $css | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+  {{ end }}
+  {{ with resources.Get "css/chroma.css" }}
+    {{ $chroma := . | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $chroma.RelPermalink }}" integrity="{{ $chroma.Data.Integrity }}">
+  {{ end }}
+  {{ $js := resources.Get "js/theme.js" }}
+  {{ if $js }}
+    {{ $js = $js | minify | fingerprint }}
+    <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+  {{ end }}
+  <meta name="theme-color" content="#efebe1">
+</head>

@@ -1,0 +1,15 @@
+{{ define "main" }}
+  {{ with .Parent }}<a class="back-link" href="{{ .RelPermalink }}">← {{ .LinkTitle }}</a>{{ end }}
+  {{ partial "list-header.html" (dict "title" .Title) }}
+
+  {{ $paginator := .Paginate .Pages }}
+  <section class="post-grid" aria-label="Posts">
+    {{ range $paginator.Pages }}
+      {{ partial "post-card.html" . }}
+    {{ else }}
+      <div class="empty-state">No posts found.</div>
+    {{ end }}
+  </section>
+
+  {{ partial "pagination.html" $paginator }}
+{{ end }}

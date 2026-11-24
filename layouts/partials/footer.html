@@ -1,0 +1,11 @@
+<footer class="site-footer">
+  <div>
+    <span>© {{ now.Format "2006" }} {{ site.Params.copyrightHolder | default site.Title }}</span>
+    {{ with site.Params.footerLicense }}
+      {{ if and .name .url }}
+        <div>Original blog writing is licensed under <a href="{{ .url }}" rel="license">{{ .name }}</a> unless otherwise noted.</div>
+      {{ end }}
+    {{ end }}
+  </div>
+  <a href="#top" aria-label="Back to top">↑ Top</a>
+</footer>
