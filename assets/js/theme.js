@@ -59,20 +59,25 @@
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
     document.querySelectorAll("[data-copy-code]").forEach(function (button) {
-      var resetLabel;
+      var resetState;
+      var status = button.parentElement.querySelector(".code-copy-status");
 
       button.hidden = false;
       button.addEventListener("click", async function () {
-        clearTimeout(resetLabel);
+        clearTimeout(resetState);
+        status.textContent = "";
         try {
           await navigator.clipboard.writeText(button.dataset.copyCode);
-          button.textContent = "Copied";
+          button.dataset.copyState = "copied";
+          status.textContent = "Code copied.";
         } catch (error) {
-          button.textContent = "Copy failed";
+          button.dataset.copyState = "failed";
+          status.textContent = "Could not copy code.";
         }
 
-        resetLabel = setTimeout(function () {
-          button.textContent = "Copy code";
+        resetState = setTimeout(function () {
+          delete button.dataset.copyState;
+          status.textContent = "";
         }, 2000);
       });
     });

@@ -1,4 +1,7 @@
 <div class="code-block">
-  <button type="button" class="code-copy" data-copy-code="{{ .Inner }}" aria-live="polite" hidden>Copy code</button>
+  <button type="button" class="code-copy" data-copy-code="{{ .Inner }}" aria-label="Copy code" title="Copy code" hidden>
+    <span class="code-copy-icon" aria-hidden="true"></span>
+  </button>
+  <span class="code-copy-status" role="status"></span>
   {{ (transform.HighlightCodeBlock .).Wrapped }}
 </div>

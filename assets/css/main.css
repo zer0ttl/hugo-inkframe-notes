@@ -782,9 +782,8 @@ select {
 }
 
 .prose .code-block {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 6px;
+  --copy-size: 32px;
+  position: relative;
   margin: 28px 0;
 }
 
@@ -792,14 +791,90 @@ select {
   margin: 0;
 }
 
+.prose .code-block:has(> .code-copy:not([hidden])) pre {
+  padding-block-start: calc(var(--copy-size) + 10px);
+}
+
 .code-copy {
-  justify-self: end;
-  padding: 4px 10px;
-  border: 2px solid var(--fg);
-  background: var(--bg-soft);
-  color: var(--fg);
+  position: absolute;
+  inset-block-start: 6px;
+  inset-inline-end: 8px;
+  width: var(--copy-size);
+  height: var(--copy-size);
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: var(--bg-soft);
+  background: var(--fg);
   font-family: var(--font-mono);
   cursor: pointer;
+}
+
+.code-block:has(.chroma) .code-copy {
+  color: #e6edf3;
+  background: #0d1117;
+}
+
+.code-copy:hover,
+.code-copy:focus-visible {
+  border-color: currentColor;
+}
+
+.code-copy-icon {
+  position: absolute;
+  inset: 0;
+  width: 16px;
+  height: 16px;
+  margin: auto;
+  background: inherit;
+}
+
+.code-copy-icon::before,
+.code-copy-icon::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 11px;
+  border: 1.5px solid currentColor;
+  border-radius: 2px;
+}
+
+.code-copy-icon::before {
+  top: 0;
+  left: 0;
+}
+
+.code-copy-icon::after {
+  bottom: 0;
+  right: 0;
+  background: inherit;
+}
+
+.code-copy[data-copy-state] .code-copy-icon {
+  display: none;
+}
+
+.code-copy[data-copy-state="copied"]::after {
+  content: "✓";
+}
+
+.code-copy[data-copy-state="failed"]::after {
+  content: "!";
+}
+
+.code-copy-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (pointer: coarse) {
+  .prose .code-block {
+    --copy-size: 44px;
+  }
 }
 
 .prose hr {
